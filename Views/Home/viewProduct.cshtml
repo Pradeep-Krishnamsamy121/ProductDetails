@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style type="text/css">
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: teal;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <fieldset>
+            <legend>Product Details</legend>
+            <a href="@Url.Action("Index", "Home")">Add New Products</a>
+            <table border="1" id="tblProductDtls">
+                <thead>
+                    <tr><th>Product ID</th><th>Product Name</th><th>Product Type</th><th>Product Colors</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </fieldset>
+    </div>
+    <script>
+      $(document).ready(function () {
+            $.ajax({
+                url: '/api/product',
+                type: 'GET',
+                dataType: 'json',
+                success: function (products) {
+                        
+                    products.forEach(function (product) {
+                          $('#tblProductDtls tbody').append(`
+                            <tr>
+                              <td>${product.id}</td>
+                                  <td>${product.productName}</td>
+                                  <td>${product.typeName}</td>
+                                  <td>${product.colorNames}</td>
+                            </tr>
+                        `);
+                    });
+                },
+                error: function () {
+                    alert('Failed to load product data');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
